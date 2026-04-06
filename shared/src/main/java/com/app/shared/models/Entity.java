@@ -13,6 +13,6 @@ public abstract class Entity implements Serializable {
     public void setId(String id) { this.id = id; }
     public String getId() { return id; }
 
-    public void test() {}
+    public void test() {} // adwda
 
 }
