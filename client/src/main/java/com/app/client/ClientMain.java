@@ -1,5 +1,8 @@
 package com.app.client;
 
 public class ClientMain {
-    //hi
+    public static void main(String[] args) {
+        System.out.println("Whatzz");
+
+    }
 }
