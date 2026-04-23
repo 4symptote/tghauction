@@ -1,12 +1,12 @@
 package com.app.shared.models.user;
 
 import com.app.shared.models.Entity;
-
 public abstract class User extends Entity {
     protected String username;
     protected String password;
     protected String email;
     protected String role; // bidder - seller - admin
+
 
     public User(String username, String password, String email, String role) {
         super();
@@ -29,5 +29,9 @@ public abstract class User extends Entity {
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
 
+    @Override
+    public String toString() {
+        return "User{username='" + username + "', role='" + role + "'}";
+    }
     // todo (probably): User specific dashboard
 }
