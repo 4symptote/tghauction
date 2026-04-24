@@ -18,7 +18,6 @@ public class AuctionTest {
     private Auction auction;
     private Item testItem;
 
-
     @BeforeEach
     public void setUp() {
         ItemCreator creator = new ElectronicCreator();
