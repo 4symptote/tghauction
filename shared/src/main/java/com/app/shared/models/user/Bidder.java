@@ -1,20 +1,12 @@
 package com.app.shared.models.user;
 
-
-//public class Bidder extends User {
-//
-//    public Bidder(String username, String password, String email) {
-//        super(username, password, email, "BIDDER");
-//    }
-//
-//}
 import com.app.shared.models.auction.BidTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bidder extends User {
     private double balance; // Số dư tài khoản để đặt giá
-    private List<BidTransaction> bidHistory; // Lịch sử các lần trả giá
+    private final List<BidTransaction> bidHistory; // Lịch sử các lần trả giá
 
     public Bidder(String username, String password, String email, double initialBalance) {
         super(username, password, email, "BIDDER");
