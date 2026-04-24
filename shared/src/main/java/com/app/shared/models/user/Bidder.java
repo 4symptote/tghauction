@@ -1,5 +1,6 @@
 package com.app.shared.models.user;
 
+
 //public class Bidder extends User {
 //
 //    public Bidder(String username, String password, String email) {
@@ -7,10 +8,7 @@ package com.app.shared.models.user;
 //    }
 //
 //}
-
-package com.app.shared.models.user;
-
-import com.app.shared.models.BidTransaction;
+import com.app.shared.models.auction.BidTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
