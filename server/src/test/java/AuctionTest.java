@@ -3,9 +3,12 @@ import com.app.shared.models.auction.BidTransaction;
 import com.app.shared.models.item.Creator.*;
 import com.app.shared.models.item.Item;
 import com.app.shared.models.user.*;
-
+import com.app.shared.models.user.Bidder;
+import com.app.shared.models.user.Seller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.DisplayName;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -17,7 +20,8 @@ public class AuctionTest {
 
     private Auction auction;
     private Item testItem;
-
+    private Bidder bidder;
+    private Seller seller;
     @BeforeEach
     public void setUp() {
         ItemCreator creator = new ElectronicCreator();
@@ -38,7 +42,7 @@ public class AuctionTest {
     public void test() {
         auction = new Auction(testItem, 100000);
 
-        User bidderA = new Bidder("Mark", "mark2222", "mark@google.com");
+        User bidderA = new Bidder("Mark", "mark2222", "mark@google.com", 1000000000);
 
         BidTransaction newBid = new BidTransaction(auction.getId(), bidderA.getId(), 10000);
 
