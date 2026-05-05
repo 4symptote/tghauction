@@ -13,24 +13,29 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
+        <!-- Unit Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>uet.auctionapp</groupId>
-            <artifactId>shared</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
+
+        <!-- Thư viện Shared (Chỉ giữ 1 bản compile) -->
         <dependency>
             <groupId>uet.auctionapp</groupId>
             <artifactId>shared</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- MySQL Driver (Đã cập nhật tên và phiên bản đúng) -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.3.0</version>
         </dependency>
     </dependencies>
 
