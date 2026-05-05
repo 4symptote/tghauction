@@ -2,18 +2,12 @@ package com.app.client.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import com.app.client.network.NetworkClient;
 import com.app.shared.network.Request;
 import com.app.shared.network.Response;
-import java.io.IOException;
 
 public class LoginController {
 
@@ -36,8 +30,8 @@ public class LoginController {
         }
 
         try {
-            //testing
-            if (NetworkClient.getInstance().sendRequest(null) == null) { // Simple check
+            // Proper safety check before acting!
+            if (!NetworkClient.getInstance().isConnected()) {
                 NetworkClient.getInstance().connect("localhost", 8080);
             }
 
@@ -48,12 +42,17 @@ public class LoginController {
             // handle server's response
             if (response.success()) {
                 System.out.println("Login success! Switching scene...");
+                errorLabel.setStyle("-fx-text-fill: green;");
+                errorLabel.setText("Login Success! Welcome " + username);
+
                 // TODO: Put your Scene switching code here to go to AuctionListView
             } else {
+                errorLabel.setStyle("-fx-text-fill: red;");
                 errorLabel.setText("Login failed: " + response.message());
             }
 
         } catch (Exception e) {
+            errorLabel.setStyle("-fx-text-fill: red;");
             errorLabel.setText("Could not connect to server!");
             e.printStackTrace();
         }

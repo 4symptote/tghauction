@@ -20,24 +20,25 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-            // CRITICAL: Always create ObjectOutputStream first and flush it before ObjectInputStream!
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             out.flush();
             in = new ObjectInputStream(clientSocket.getInputStream());
 
-            // Continuously listen for requests from this connected client
             while (!clientSocket.isClosed()) {
-                // Wait for the client to send a request
                 Request request = (Request) in.readObject();
 
-                // Process the request
+                // Guard clause: ignore nulls
+                if (request == null) {
+                    continue;
+                }
+
                 Response response = handleRequest(request);
 
-                // Send the response back to the client
                 out.writeObject(response);
-                out.flush(); // Don't forget to flush!
+                out.flush();
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (Exception e) {
+            // Broadened catch: This will now catch structural/NPE issues before breaking the loop blindly
             System.out.println("Client disconnected or error occurred: " + e.getMessage());
         } finally {
             closeConnections();
@@ -45,6 +46,7 @@ public class ClientHandler implements Runnable {
     }
 
     private Response handleRequest(Request request) {
+        // As long as request is not null, this remains safe
         switch (request.type()) {
             case LOGIN:
                 String username = (String) request.payload();

@@ -22,7 +22,10 @@ public class NetworkClient {
         return instance;
     }
 
-    // Connects to the server
+    public boolean isConnected() {
+        return socket != null && !socket.isClosed() && out != null && in != null;
+    }
+
     public void connect(String host, int port) throws Exception {
         socket = new Socket(host, port);
         out = new ObjectOutputStream(socket.getOutputStream());
@@ -31,8 +34,11 @@ public class NetworkClient {
         System.out.println("Connected to server!");
     }
 
-    // Sends a request, waits for the server, and returns the Response
     public Response sendRequest(Request request) {
+        if (!isConnected()) {
+            return new Response(false, "Not connected to the server. Please try again.", null);
+        }
+
         try {
             out.writeObject(request);
             out.flush();
