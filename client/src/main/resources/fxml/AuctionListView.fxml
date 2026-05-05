@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- Notice fx:controller links this layout to your exact Java class -->
+<VBox spacing="15" alignment="CENTER" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.app.client.controller.AuctionListController">
+
+    <Label text="Active Auctions" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <!-- fx:id must exactly match the variable names in the Controller -->
+    <ListView fx:id="auctionListView" prefHeight="250.0" prefWidth="550.0" />
+
+    <HBox spacing="20" alignment="CENTER">
+        <Button fx:id="refreshButton" text="Refresh List" />
+        <Button fx:id="placeBidButton" text="Place Bid" style="-fx-base: #28a745;" />
+    </HBox>
+
+    <Label fx:id="statusLabel" text="Welcome!" textFill="gray"/>
+
+</VBox>

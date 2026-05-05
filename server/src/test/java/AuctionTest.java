@@ -27,7 +27,6 @@ public class AuctionTest {
         ItemCreator creator = new ElectronicCreator();
         Seller sellerA = new Seller("Dan", "Dan1234", "Dan1234@uet.vnu.edu");
         testItem = creator.createItem("Laptop", "Gaming Laptop", 1000.0, sellerA.getId());
-
     }
 
 

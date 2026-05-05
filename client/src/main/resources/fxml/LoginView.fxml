@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.client.controller.LoginController">
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+    </padding>
+
+    <Label text="tGauction" textFill="#2f66d3">
+        <font>
+            <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+
+    <Label text="Enter username" textFill="#666666" />
+
+    <TextField fx:id="usernameField"
+               promptText="Username"
+               prefHeight="40.0" prefWidth="250.0"
+    />
+
+    <Label fx:id="errorLabel" textFill="RED" visible="false" />
+
+    <Button fx:id="loginButton"
+            text="Enter"
+            mnemonicParsing="false"
+            onAction="#handleLogin"
+            prefHeight="40.0" prefWidth="250.0"
+            style="-fx-background-color: #2f66d3; -fx-text-fill: white; -fx-font-weight: bold;"
+    />
+
+</VBox>
