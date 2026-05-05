@@ -8,7 +8,7 @@ public class DatabaseConnection {
     // Thông tin kết nối MySQL (Đổi lại cho khớp với database của bạn)
     private static final String URL = "jdbc:mysql://localhost:3306/auction_db";
     private static final String USER = "root";       // Username MySQL của bạn
-    private static final String PASSWORD = "";       // Mật khẩu MySQL của bạn (XAMPP thường để trống)
+    private static final String PASSWORD = "123456789";       // Mật khẩu MySQL của bạn (XAMPP thường để trống)
 
     private static Connection connection = null;
 
