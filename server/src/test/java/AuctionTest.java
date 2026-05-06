@@ -54,17 +54,17 @@ public class AuctionTest {
         System.out.println(bidderA.getId());
     }
 
-//    @Test
-//    public void testForAuctionDuration() throws InterruptedException {
-//        Thread.sleep(3000);
-//        auction = new Auction(testItem, 3000);
-//        System.out.println(auction.getStatus());
-//        System.out.println("Auction opened for 3 seconds \nPerform a check after 5 seconds of opening\nwhen the auction is already finished");
-//        Thread.sleep(5000);
-//        System.out.println(auction.getStatus());
-//
-//        assertEquals(Auction.Status.FINISHED, auction.getStatus());
-//    }
+    @Test
+    public void testForAuctionDuration() throws InterruptedException {
+        Thread.sleep(3000);
+        auction = new Auction(testItem, 3000);
+        System.out.println(auction.getStatus());
+        System.out.println("Auction opened for 3 seconds \nPerform a check after 5 seconds of opening\nwhen the auction is already finished");
+        Thread.sleep(5000);
+        System.out.println(auction.getStatus());
+
+        assertEquals(Auction.Status.FINISHED, auction.getStatus());
+    }
 
 
 }

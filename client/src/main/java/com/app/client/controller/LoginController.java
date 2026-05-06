@@ -30,7 +30,7 @@ public class LoginController {
         }
 
         try {
-            // Proper safety check before acting!
+            // Proper safety check before acting
             if (!NetworkClient.getInstance().isConnected()) {
                 NetworkClient.getInstance().connect("localhost", 8080);
             }

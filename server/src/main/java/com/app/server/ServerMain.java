@@ -4,7 +4,7 @@ import com.app.server.network.AuctionServer;
 
 public class ServerMain {
     public static void main(String[] args) {
-        int port = 8080; // Make sure this matches the port your NetworkClient tries to connect to
+        int port = 8080;
         AuctionServer server = new AuctionServer(port);
         server.start();
     }

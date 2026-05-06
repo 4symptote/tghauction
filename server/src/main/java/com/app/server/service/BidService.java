@@ -1,5 +1,6 @@
 package com.app.server.service;
 
+import com.app.server.network.ClientManager;
 import com.app.shared.models.auction.Auction;
 import com.app.shared.models.auction.BidTransaction;
 import com.app.shared.exceptions.AuctionClosedException;
@@ -29,7 +30,7 @@ public class BidService {
         return instance;
     }
 
-// concurrent bidding
+    // concurrent bidding
     public void placeBid(String auctionId, String bidderId, double bidAmount)
             throws InvalidBidException, AuctionClosedException
     {
@@ -46,18 +47,15 @@ public class BidService {
         lock.lock();
 
         try {
-        // validations
+            // validations
             // check if biddable
-            if (auction.getStatus() == Auction.Status.FINISHED ||
-                auction.getStatus() == Auction.Status.CANCELED ||
-                auction.getStatus() == Auction.Status.PAID)
+            if (auction.getStatus() != Auction.Status.RUNNING)
             {
-                throw new AuctionClosedException("");
+                throw new AuctionClosedException("Auction is not RUNNING. Current status: " + auction.getStatus());
             }
             // check if bid amount is valid
             if (bidAmount <= auction.getCurrentPrice()) {
-                // todo:
-                throw new InvalidBidException("");
+                throw new InvalidBidException("Bid must be strictly higher than current price.");
             }
 
             // create new transaction and add (should be the highest bid)
@@ -73,10 +71,11 @@ public class BidService {
 
             System.out.println("> new bid placed for $" + bidAmount + " by " + bidderId);
 
+            // observer pattern
+            ClientManager.getInstance().broadcastAuctionUpdate(auction);
 
         } finally {
             lock.unlock();
         }
     }
 }
-
