@@ -30,6 +30,8 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- MySQL Driver (Đã cập nhật tên và phiên bản đúng) -->
         <dependency>
         <groupId>org.mongodb</groupId>
         <artifactId>mongodb-driver-sync</artifactId>

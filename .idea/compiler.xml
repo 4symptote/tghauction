@@ -11,5 +11,8 @@
         <module name="shared" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="networking" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
