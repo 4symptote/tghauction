@@ -12,38 +12,49 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import com.app.client.model.AuctionListModel;
 
 import java.io.IOException;
 
 public class AuctionListController {
 
-    @FXML private Label userLabel;
-    @FXML private ListView<String> auctionListView; // We use String temporarily to mock data
+    @FXML private Label statusLabel;
+    @FXML private ListView<String> auctionListView;
 
     private String currentUsername;
     private ObservableList<String> mockAuctions;
 
+    private final AuctionListModel model = new AuctionListModel();
+
     @FXML
     public void initialize() {
-        // Runs automatically when the FXML is loaded. Let's add some mock data!
-        mockAuctions = FXCollections.observableArrayList(
-                "Gaming Laptop (RTX 4090) | Seller: seller1 | Current Bid: $1200 | Status: RUNNING",
-                "Vintage Rolex Submariner | Seller: seller2 | Current Bid: $3500 | Status: RUNNING",
-                "Original Oil Painting | Seller: artist99 | Current Bid: $500 | Status: OPEN"
-        );
+        mockAuctions = FXCollections.observableArrayList();
         auctionListView.setItems(mockAuctions);
+        refreshData();
     }
 
     // Called from LoginController to pass data
     public void initData(String username) {
         this.currentUsername = username;
-        userLabel.setText("Welcome, " + username);
+        statusLabel.setText("Welcome, " + username);
+    }
+
+    private void refreshData() {
+        new Thread(() -> {
+            java.util.List<com.app.shared.models.auction.Auction> auctions = model.fetchAuctions();
+            javafx.application.Platform.runLater(() -> {
+                mockAuctions.clear();
+                for (com.app.shared.models.auction.Auction a : auctions) {
+                    mockAuctions.add(a.getItem().getName() + " | Current Bid: $" + a.getCurrentPrice() + " | Status: " + a.getStatus());
+                }
+            });
+        }).start();
     }
 
     @FXML
     protected void handleRefresh(ActionEvent event) {
-        // TODO: Request the latest auction list from the Server
         System.out.println("Refreshing auctions from server...");
+        refreshData();
     }
 
     @FXML

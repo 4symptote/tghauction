@@ -14,8 +14,8 @@
     <ListView fx:id="auctionListView" prefHeight="250.0" prefWidth="550.0" />
 
     <HBox spacing="20" alignment="CENTER">
-        <Button fx:id="refreshButton" text="Refresh List" />
-        <Button fx:id="placeBidButton" text="Place Bid" style="-fx-base: #28a745;" />
+        <Button fx:id="refreshButton" text="Refresh List" onAction="#handleRefresh"/>
+        <Button fx:id="placeBidButton" text="Place Bid" style="-fx-base: #28a745;" onAction="#handlePlaceBid"/>
     </HBox>
 
     <Label fx:id="statusLabel" text="Welcome!" textFill="gray"/>

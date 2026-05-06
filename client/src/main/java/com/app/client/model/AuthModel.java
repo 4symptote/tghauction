@@ -11,7 +11,7 @@ public class AuthModel {
     public void login(String username) throws AuthenticationException {
         try {
             // 1. Establish connection if none exists
-            if (NetworkClient.getInstance().sendRequest(null) == null) {
+            if (!NetworkClient.getInstance().isConnected()) {
                 NetworkClient.getInstance().connect("localhost", 8080);
             }
 
