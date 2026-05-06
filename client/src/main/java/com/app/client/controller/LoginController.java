@@ -2,23 +2,21 @@ package com.app.client.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import com.app.client.network.NetworkClient;
-import com.app.shared.network.Request;
-import com.app.shared.network.Response;
+import javafx.stage.Stage;
+import com.app.client.model.AuthModel;
 
 public class LoginController {
 
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private Label errorLabel;
-
-    @FXML
-    private Button loginButton;
+    @FXML private TextField usernameField;
+    @FXML private Label errorLabel;
+    @FXML private Button loginButton;
 
     @FXML
     public void handleLogin(ActionEvent event) {
@@ -30,30 +28,28 @@ public class LoginController {
         }
 
         try {
-            // Proper safety check before acting
-            if (!NetworkClient.getInstance().isConnected()) {
-                NetworkClient.getInstance().connect("localhost", 8080);
-            }
+            // Delegate the logic to the Model
+            AuthModel authModel = new AuthModel();
+            authModel.login(username);
 
-            // send LOGIN request
-            Request loginReq = new Request(Request.RequestType.LOGIN, username);
-            Response response = NetworkClient.getInstance().sendRequest(loginReq);
+            // If the model doesn't throw an Exception, the login was successful. Switch scenes!
+            System.out.println("Login success! Switching scene...");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AuctionListView.fxml"));
+            Parent root = loader.load();
 
-            // handle server's response
-            if (response.success()) {
-                System.out.println("Login success! Switching scene...");
-                errorLabel.setStyle("-fx-text-fill: green;");
-                errorLabel.setText("Login Success! Welcome " + username);
+            AuctionListController controller = loader.getController();
+            controller.initData(username);
 
-                // TODO: Put your Scene switching code here to go to AuctionListView
-            } else {
-                errorLabel.setStyle("-fx-text-fill: red;");
-                errorLabel.setText("Login failed: " + response.message());
-            }
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 600));
+            stage.setTitle("tGhauction - Auctions");
 
+        } catch (com.app.shared.exceptions.AuthenticationException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Login failed: " + e.getMessage());
         } catch (Exception e) {
-            errorLabel.setStyle("-fx-text-fill: red;");
-            errorLabel.setText("Could not connect to server!");
+            errorLabel.setVisible(true);
+            errorLabel.setText("System error: " + e.getMessage());
             e.printStackTrace();
         }
     }
