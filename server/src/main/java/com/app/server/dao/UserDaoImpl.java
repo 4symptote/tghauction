@@ -1,60 +1,59 @@
 package com.app.server.dao;
 
+import com.app.server.dao.DatabaseConnection;
 import com.app.shared.models.user.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 
 public class UserDaoImpl implements UserDao {
+    private MongoCollection<Document> userCollection;
+
+    public UserDaoImpl() {
+        // Lấy collection "users" (giống như bảng users trong MySQL)
+        MongoDatabase database = DatabaseConnection.getDatabase();
+        this.userCollection = database.getCollection("users");
+    }
 
     @Override
     public User getUserByUsernameAndPassword(String username, String password) {
-        // Dùng PreparedStatement để chống SQL Injection
-        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+        // Tìm 1 document khớp username và password
+        Document doc = userCollection.find(and(eq("username", username), eq("password", password))).first();
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-
-            ResultSet rs = stmt.executeQuery();
-
-            // Nếu tìm thấy dòng dữ liệu thoả mãn
-            if (rs.next()) {
-                return new User(
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("role"),
-                        rs.getString("email")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (doc != null) {
+            // Parse dữ liệu từ Document sang Java Object
+            return new User(
+                    doc.getString("username"),
+                    doc.getString("password"),
+                    doc.getString("email"),
+                    doc.getString("role")
+            );
         }
-        return null; // Không tìm thấy hoặc sai pass
+        return null;
     }
 
     @Override
     public boolean registerUser(User user) {
-        String sql = "INSERT INTO users (username, password, role, email) VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getPassword());
-            stmt.setString(3, user.getRole());
-            stmt.setString(4, user.getEmail());
-
-            int rowsAffected = stmt.executeUpdate(); // Thực thi câu lệnh Insert
-            return rowsAffected > 0; // Trả về true nếu thành công
-
-        } catch (SQLException e) {
-            System.err.println("Lỗi tạo user: Trùng lặp username?");
-            e.printStackTrace();
+        // Kiểm tra xem username đã tồn tại chưa
+        Document existingUser = userCollection.find(eq("username", user.getUsername())).first();
+        if (existingUser != null) {
+            System.out.println("Tên đăng nhập đã tồn tại!");
+            return false;
         }
-        return false;
+
+        // Tạo Document mới để lưu vào DB
+        Document newUserDoc = new Document("username", user.getUsername())
+                .append("password", user.getPassword())
+                .append("email", user.getEmail())
+                .append("role", user.getRole())
+                .append("balance", 0.0);
+
+        // Insert vào MongoDB
+        userCollection.insertOne(newUserDoc);
+        return true;
     }
 }
