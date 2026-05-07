@@ -1,5 +1,7 @@
 package com.app.server.service;
 
+import com.app.server.dao.AuctionDao;
+import com.app.server.dao.AuctionDaoImpl;
 import com.app.server.network.ClientManager;
 import com.app.shared.models.auction.Auction;
 import com.app.shared.models.auction.BidTransaction;
@@ -62,11 +64,17 @@ public class BidService {
             BidTransaction newBid = new BidTransaction(auctionId, bidderId, bidAmount);
             auction.addBid(newBid);
 
+            AuctionDao auctionDao = new AuctionDaoImpl();
+            auctionDao.addBid(auctionId, newBid); // Push bid xuống db
+
             // anti sniping
             long timeLeft = auction.getEndTime() - System.currentTimeMillis();
             if (timeLeft < 30000) { // < 30s
                 long newEndTime = auction.getEndTime() + 60000; // +60s
                 auction.setEndTime(newEndTime);
+
+                // Update thời gian lại cho Collection Mongo
+                auctionDao.updateAuctionEndTime(auctionId, newEndTime);
             }
 
             System.out.println("> new bid placed for $" + bidAmount + " by " + bidderId);
