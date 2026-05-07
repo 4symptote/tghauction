@@ -6,10 +6,7 @@ import com.app.server.service.UserManager;
 import com.app.shared.exceptions.AuctionClosedException;
 import com.app.shared.exceptions.InvalidBidException;
 import com.app.shared.models.auction.Auction;
-import com.app.shared.models.item.Creator.ArtCreator;
-import com.app.shared.models.item.Creator.ElectronicCreator;
-import com.app.shared.models.item.Creator.ItemCreator;
-import com.app.shared.models.item.Creator.VehicleCreator;
+import com.app.shared.models.item.Creator.ItemFactory;
 import com.app.shared.models.item.Item;
 import com.app.shared.network.AuctionObserver;
 import com.app.shared.network.Request;
@@ -19,6 +16,7 @@ import com.app.shared.network.payload.BidPayload;
 import com.app.shared.network.payload.CreateAuctionPayload;
 import com.app.shared.network.payload.LoginPayload;
 import com.app.shared.network.payload.RegisterPayload;
+import com.app.shared.network.payload.SetAuctionPricePayload;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -81,6 +79,10 @@ public class ClientHandler implements Runnable, AuctionObserver {
                     return handleCreateAuction(request.payload());
                 case DELETE_AUCTION:
                     return handleDeleteAuction(request.payload());
+                case SET_AUCTION_PRICE:
+                    return handleSetAuctionPrice(request.payload());
+                case CONCLUDE_AUCTION:
+                    return handleConcludeAuction(request.payload());
                 case PLACE_BID:
                     return handlePlaceBid(request.payload());
                 case GET_BID_HISTORY:
@@ -128,13 +130,8 @@ public class ClientHandler implements Runnable, AuctionObserver {
             return new Response(false, "Duration must be positive", null);
         }
 
-        String itemType = create.itemType() == null ? "" : create.itemType().toLowerCase();
-        ItemCreator creator = switch (itemType) {
-            case "art" -> new ArtCreator();
-            case "vehicle" -> new VehicleCreator();
-            default -> new ElectronicCreator();
-        };
-        Item item = creator.createItem(
+        Item item = ItemFactory.createItem(
+                create.itemType(),
                 create.name().trim(),
                 create.description() == null ? "" : create.description().trim(),
                 create.startingPrice(),
@@ -147,6 +144,9 @@ public class ClientHandler implements Runnable, AuctionObserver {
     }
 
     private Response handleDeleteAuction(Object payload) {
+        if (!"ADMIN".equalsIgnoreCase(currentRole)) {
+            return new Response(false, "Only admins can delete auctions.", null);
+        }
         AuctionIdPayload delete = (AuctionIdPayload) payload;
         Auction auction = auctionManager.getAuction(delete.auctionId());
         if (auction == null) {
@@ -154,6 +154,49 @@ public class ClientHandler implements Runnable, AuctionObserver {
         }
         auctionManager.removeAuction(delete.auctionId());
         return new Response(true, "Auction deleted", delete.auctionId());
+    }
+
+    private Response handleSetAuctionPrice(Object payload) {
+        if (!"ADMIN".equalsIgnoreCase(currentRole)) {
+            return new Response(false, "Only admins can set auction prices.", null);
+        }
+
+        SetAuctionPricePayload pricePayload = (SetAuctionPricePayload) payload;
+        if (pricePayload.price() <= 0) {
+            return new Response(false, "Auction price must be positive.", null);
+        }
+
+        Auction auction = auctionManager.getAuction(pricePayload.auctionId());
+        if (auction == null) {
+            return new Response(false, "Auction not found", null);
+        }
+
+        auction.setCurrentPrice(pricePayload.price());
+        auction.getItem().setCurrentHighestBid(pricePayload.price());
+        auctionManager.saveToDisk();
+        ClientManager.getInstance().broadcastAuctionUpdate(auction);
+        return new Response(true, "Auction price updated", auction);
+    }
+
+    private Response handleConcludeAuction(Object payload) {
+        if (!"ADMIN".equalsIgnoreCase(currentRole)) {
+            return new Response(false, "Only admins can conclude auctions.", null);
+        }
+
+        AuctionIdPayload conclude = (AuctionIdPayload) payload;
+        Auction auction = auctionManager.getAuction(conclude.auctionId());
+        if (auction == null) {
+            return new Response(false, "Auction not found", null);
+        }
+        if (auction.getStatus() == Auction.Status.PAID || auction.getStatus() == Auction.Status.CANCELED) {
+            return new Response(false, "Auction cannot be concluded from status: " + auction.getStatus(), null);
+        }
+
+        auction.setEndTime(System.currentTimeMillis());
+        auction.setStatus(Auction.Status.FINISHED);
+        auctionManager.saveToDisk();
+        ClientManager.getInstance().broadcastAuctionUpdate(auction);
+        return new Response(true, "Auction concluded", auction);
     }
 
     private Response handlePlaceBid(Object payload) {

@@ -12,7 +12,7 @@
     <top>
         <HBox spacing="16" alignment="CENTER_LEFT" styleClass="top-bar">
             <VBox spacing="2">
-                <Label text="tGauction" styleClass="app-title"/>
+                <Label text="tGhauction" styleClass="app-title"/>
                 <Label text="Live auction control panel" styleClass="muted-text"/>
             </VBox>
             <Pane HBox.hgrow="ALWAYS"/>
@@ -26,11 +26,10 @@
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <VBox spacing="2">
                     <Label text="Active Auctions" styleClass="section-title"/>
-                    <Label text="Double-click an auction to inspect details and bid." styleClass="muted-text"/>
                 </VBox>
                 <Pane HBox.hgrow="ALWAYS"/>
+                <Button fx:id="sellerFilterButton" text="My Auctions" onAction="#handleToggleSellerAuctions" styleClass="secondary-button"/>
                 <Button fx:id="refreshButton" text="Refresh" onAction="#handleRefresh" styleClass="secondary-button"/>
-                <Button fx:id="detailsButton" text="Details" onAction="#handleViewDetails" styleClass="secondary-button"/>
                 <Button fx:id="createAuctionButton" text="New Auction" onAction="#handleCreateAuction" styleClass="primary-button"/>
             </HBox>
 

@@ -16,6 +16,8 @@ public record Request(RequestType type, Object payload) implements Serializable 
         PLACE_BID,
         CREATE_AUCTION,
         DELETE_AUCTION,
+        SET_AUCTION_PRICE,
+        CONCLUDE_AUCTION,
         GET_AUCTIONS,
         GET_BID_HISTORY
     }

@@ -8,6 +8,7 @@ import com.app.shared.models.auction.BidTransaction;
 import com.app.shared.network.payload.AuctionIdPayload;
 import com.app.shared.network.payload.BidPayload;
 import com.app.shared.network.payload.CreateAuctionPayload;
+import com.app.shared.network.payload.SetAuctionPricePayload;
 
 import java.util.List;
 import java.util.Collections;
@@ -52,6 +53,39 @@ public class AuctionListModel {
             );
         } catch (Exception e) {
             return new Response(false, "Could not create auction: " + e.getMessage(), null);
+        }
+    }
+
+    public Response deleteAuction(String auctionId) {
+        try {
+            ensureConnected();
+            return NetworkClient.getInstance().sendRequest(
+                    new Request(Request.RequestType.DELETE_AUCTION, new AuctionIdPayload(auctionId))
+            );
+        } catch (Exception e) {
+            return new Response(false, "Could not delete auction: " + e.getMessage(), null);
+        }
+    }
+
+    public Response setAuctionPrice(String auctionId, double price) {
+        try {
+            ensureConnected();
+            return NetworkClient.getInstance().sendRequest(
+                    new Request(Request.RequestType.SET_AUCTION_PRICE, new SetAuctionPricePayload(auctionId, price))
+            );
+        } catch (Exception e) {
+            return new Response(false, "Could not update auction price: " + e.getMessage(), null);
+        }
+    }
+
+    public Response concludeAuction(String auctionId) {
+        try {
+            ensureConnected();
+            return NetworkClient.getInstance().sendRequest(
+                    new Request(Request.RequestType.CONCLUDE_AUCTION, new AuctionIdPayload(auctionId))
+            );
+        } catch (Exception e) {
+            return new Response(false, "Could not conclude auction: " + e.getMessage(), null);
         }
     }
 

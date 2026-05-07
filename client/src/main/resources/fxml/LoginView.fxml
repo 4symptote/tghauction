@@ -21,8 +21,8 @@
 
     <center>
         <VBox alignment="CENTER_LEFT" spacing="18.0" styleClass="auth-panel">
-            <Label text="tGauction" styleClass="brand-title"/>
-            <Label text="Online auction workspace" styleClass="muted-text"/>
+            <Label text="tGhauction" styleClass="brand-title"/>
+            <Label text="Online auction" styleClass="muted-text"/>
 
             <VBox spacing="8.0">
                 <Label text="Username" styleClass="field-label"/>
