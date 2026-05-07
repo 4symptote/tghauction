@@ -1,5 +1,10 @@
 package com.app.client.controller;
 
+import com.app.client.model.AuctionListModel;
+import com.app.shared.models.auction.Auction;
+import com.app.shared.network.Response;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,10 +16,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
-import com.app.client.model.AuctionListModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class AuctionListController {
 
@@ -23,6 +31,9 @@ public class AuctionListController {
 
     private String currentUsername;
     private ObservableList<String> mockAuctions;
+
+    // Lưu object Auction thật để lấy auctionId khi đặt bid
+    private List<Auction> auctions = new ArrayList<>();
 
     private final AuctionListModel model = new AuctionListModel();
 
@@ -41,11 +52,20 @@ public class AuctionListController {
 
     private void refreshData() {
         new Thread(() -> {
-            java.util.List<com.app.shared.models.auction.Auction> auctions = model.fetchAuctions();
-            javafx.application.Platform.runLater(() -> {
+            List<Auction> fetchedAuctions = model.fetchAuctions();
+
+            Platform.runLater(() -> {
+                auctions = fetchedAuctions;
                 mockAuctions.clear();
-                for (com.app.shared.models.auction.Auction a : auctions) {
-                    mockAuctions.add(a.getItem().getName() + " | Current Bid: $" + a.getCurrentPrice() + " | Status: " + a.getStatus());
+
+                for (Auction a : auctions) {
+                    mockAuctions.add(
+                            a.getItem().getName()
+                                    + " | Current Bid: $"
+                                    + a.getCurrentPrice()
+                                    + " | Status: "
+                                    + a.getStatus()
+                    );
                 }
             });
         }).start();
@@ -59,15 +79,59 @@ public class AuctionListController {
 
     @FXML
     protected void handlePlaceBid(ActionEvent event) {
-        String selectedItem = auctionListView.getSelectionModel().getSelectedItem();
-        if (selectedItem == null) {
+        int selectedIndex = auctionListView.getSelectionModel().getSelectedIndex();
+
+        if (selectedIndex < 0 || selectedIndex >= auctions.size()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Please select an auction to bid on!");
             alert.showAndWait();
             return;
         }
 
-        System.out.println(currentUsername + " clicked to bid on: " + selectedItem);
-        // TODO: Switch to the Bid/Item Detail view
+        Auction selectedAuction = auctions.get(selectedIndex);
+
+        TextInputDialog dialog = new TextInputDialog(
+                String.valueOf(selectedAuction.getCurrentPrice() + 1)
+        );
+        dialog.setTitle("Place Bid");
+        dialog.setHeaderText("Bid for: " + selectedAuction.getItem().getName());
+        dialog.setContentText("Enter your bid amount:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isEmpty()) {
+            return;
+        }
+
+        double amount;
+        try {
+            amount = Double.parseDouble(result.get().trim());
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid bid amount.");
+            alert.showAndWait();
+            return;
+        }
+
+        String bidderId = currentUsername != null ? currentUsername : "guest";
+
+        new Thread(() -> {
+            Response response = model.placeBid(
+                    selectedAuction.getId(),
+                    bidderId,
+                    amount
+            );
+
+            Platform.runLater(() -> {
+                Alert alert = new Alert(
+                        response.success() ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR,
+                        response.message()
+                );
+                alert.showAndWait();
+
+                if (response.success()) {
+                    refreshData();
+                }
+            });
+        }).start();
     }
 
     @FXML
