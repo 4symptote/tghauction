@@ -28,4 +28,14 @@ public class AuctionListModel {
         }
         return Collections.emptyList();
     }
+    public Response placeBid(String auctionId, String bidderId, double amount) {
+        Object[] payload = new Object[] {
+                auctionId,
+                bidderId,
+                amount
+        };
+
+        Request request = new Request(Request.RequestType.PLACE_BID, payload);
+        return NetworkClient.getInstance().sendRequest(request);
+    }
 }
