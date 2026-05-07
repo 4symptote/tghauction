@@ -4,6 +4,8 @@ import com.app.shared.models.auction.Auction;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
+import com.app.server.dao.AuctionDao;
+import com.app.server.dao.AuctionDaoImpl;
 
 public class AuctionManager {
 
@@ -22,10 +24,13 @@ public class AuctionManager {
         return instance;
     }
 
-
+    private final AuctionDao auctionDao = new AuctionDaoImpl();
 
     public void addAuction(Auction auction) {
-        activeAuctions.put(auction.getId(), auction);
+        activeAuctions.put(auction.getId(), auction); // Đây là dòng giữ trên Memory của RAM
+
+        // Đẩy thẳng xuống MongoDB luôn
+        auctionDao.createAuction(auction);
     }
 
     public void removeAuction(String auctionId) {
