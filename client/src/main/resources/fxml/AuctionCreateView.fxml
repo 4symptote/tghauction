@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="650.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.client.controller.AuctionCreateController">
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="form-container" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="30.0">
+            <children>
+                <!-- Tiêu đề chính -->
+                <Label styleClass="header-label" text="Create New Auction">
+                    <font>
+                        <Font name="System Bold" size="26.0" />
+                    </font>
+                </Label>
+
+                <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <!-- Item Title -->
+                        <VBox spacing="5.0">
+                            <children>
+                                <Label styleClass="field-label" text="Item Title" />
+                                <TextField fx:id="titleField" promptText="e.g. Vintage Rolex Submariner" />
+                            </children>
+                        </VBox>
+
+                        <!-- Item Type & Start Price (Nằm trên cùng 1 hàng) -->
+                        <HBox spacing="20.0">
+                            <children>
+                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="field-label" text="Item Type" />
+                                        <ComboBox fx:id="itemTypeComboBox" maxWidth="1.7976931348623157E308" promptText="Select type">
+                                            <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                    <String fx:value="Electronics" />
+                                                    <String fx:value="Art" />
+                                                    <String fx:value="Vehicle" />
+                                                </FXCollections>
+                                            </items>
+                                        </ComboBox>
+                                    </children>
+                                </VBox>
+                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="field-label" text="Start Price (USD)" />
+                                        <TextField fx:id="startPriceField" promptText="0.00" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <!-- Image URL -->
+                        <VBox spacing="5.0">
+                            <children>
+                                <Label styleClass="field-label" text="Image URL" />
+                                <TextField fx:id="imageUrlField" promptText="https://example.com/image.jpg" />
+                            </children>
+                        </VBox>
+
+                        <!-- Description -->
+                        <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="field-label" text="Description" />
+                                <TextArea fx:id="descriptionArea" prefHeight="120.0" promptText="Describe history, condition, and specs..." wrapText="true" VBox.vgrow="ALWAYS" />
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+
+                <!-- Thông báo lỗi -->
+                <Label fx:id="errorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" textAlignment="CENTER" wrapText="true" />
+
+                <!-- Khu vực nút bấm -->
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" prefHeight="40.0" prefWidth="120.0" styleClass="button-cancel" text="Cancel" />
+                        <Button fx:id="publishButton" mnemonicParsing="false" onAction="#handlePublish" prefHeight="40.0" prefWidth="200.0" styleClass="button-publish" text="Publish Auction" />
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

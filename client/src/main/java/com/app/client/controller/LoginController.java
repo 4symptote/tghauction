@@ -2,24 +2,18 @@ package com.app.client.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import com.app.client.network.NetworkClient;
-import com.app.client.model.AuthModel;
-import com.app.shared.network.Request;
-import com.app.shared.network.Response;
-import java.io.IOException;
 
 public class LoginController {
 
     @FXML
-    private TextField usernameField;
+    private TextField emailField;
+
+    @FXML
+    private PasswordField passwordField;
 
     @FXML
     private Label errorLabel;
@@ -28,53 +22,48 @@ public class LoginController {
     private Button loginButton;
 
     @FXML
-    public void handleLogin(ActionEvent event) {
-        String username = usernameField.getText();
+    private Button registerButton;
 
-        if (username == null || username.trim().isEmpty()) {
-            errorLabel.setText("Please enter a username.");
+    @FXML
+    public void initialize() {
+        // Khởi tạo các sự kiện mặc định nếu cần
+    }
+
+    @FXML
+    private void handleLogin(ActionEvent event) {
+        String email = emailField.getText();
+        String password = passwordField.getText();
+
+        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            errorLabel.setText("Please enter both email and password.");
             return;
         }
 
-        loginButton.setDisable(true);
-        errorLabel.setVisible(true);
-        errorLabel.setText("Connecting...");
+        System.out.println("Attempting to login with: " + email);
 
-        new Thread(() -> {
-            try {
-                // send LOGIN request
-                AuthModel authModel = new AuthModel();
-                authModel.login(username);
+        // TODO: Gửi yêu cầu đăng nhập lên Server thông qua Socket hoặc API
+        // Ví dụ:
+        // boolean success = AuthService.login(email, password);
+        // if (success) {
+        //     SceneManager.getInstance().switchScene("MainAppView.fxml");
+        // } else {
+        //     errorLabel.setText("Invalid credentials!");
+        // }
+    }
 
-                javafx.application.Platform.runLater(() -> {
-                    try {
-                        System.out.println("Login success! Switching scene...");
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AuctionListView.fxml"));
-                        Parent root = loader.load();
+    @FXML
+    private void handleRegister(ActionEvent event) {
+        String email = emailField.getText();
+        String password = passwordField.getText();
 
-                        AuctionListController controller = loader.getController();
-                        controller.initData(username);
+        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            errorLabel.setText("Please enter both email and password to register.");
+            return;
+        }
 
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(new Scene(root, 800, 600));
-                        stage.setTitle("tGauction - Auctions");
-                    } catch (IOException e) {
-                        errorLabel.setText("System error: " + e.getMessage());
-                        loginButton.setDisable(false);
-                    }
-                });
-            } catch (com.app.shared.exceptions.AuthenticationException e) {
-                javafx.application.Platform.runLater(() -> {
-                    errorLabel.setText("Login failed: " + e.getMessage());
-                    loginButton.setDisable(false);
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-                javafx.application.Platform.runLater(() -> {
-                    errorLabel.setText("System error: " + e.getMessage());
-                    loginButton.setDisable(false);
-                });
-            }
-        }).start();
+        System.out.println("Attempting to register: " + email);
+
+        // TODO: Gửi yêu cầu đăng ký lên Server
+        // ...
     }
 }
