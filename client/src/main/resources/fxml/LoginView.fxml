@@ -3,36 +3,57 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.client.controller.LoginController">
+<BorderPane prefHeight="560.0" prefWidth="440.0"
+            stylesheets="@../css/app.css"
+            styleClass="login-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.app.client.controller.LoginController">
     <padding>
-        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+        <Insets bottom="34.0" left="34.0" right="34.0" top="34.0" />
     </padding>
 
-    <Label text="tGauction" textFill="#2f66d3">
-        <font>
-            <Font name="System Bold" size="24.0" />
-        </font>
-    </Label>
+    <center>
+        <VBox alignment="CENTER_LEFT" spacing="18.0" styleClass="auth-panel">
+            <Label text="tGauction" styleClass="brand-title"/>
+            <Label text="Online auction workspace" styleClass="muted-text"/>
 
-    <Label text="Enter username" textFill="#666666" />
+            <VBox spacing="8.0">
+                <Label text="Username" styleClass="field-label"/>
+                <TextField fx:id="usernameField"
+                           promptText="Enter your username"
+                           prefHeight="44.0"
+                           maxWidth="Infinity"/>
+            </VBox>
 
-    <TextField fx:id="usernameField"
-               promptText="Username"
-               prefHeight="40.0" prefWidth="250.0"
-    />
+            <VBox spacing="8.0">
+                <Label text="Password" styleClass="field-label"/>
+                <PasswordField fx:id="passwordField"
+                               promptText="Enter your password"
+                               prefHeight="44.0"
+                               maxWidth="Infinity"/>
+            </VBox>
 
-    <Label fx:id="errorLabel" textFill="RED" visible="false" />
+            <Label fx:id="errorLabel" managed="true" textFill="#C2410C" visible="false" styleClass="error-text"/>
 
-    <Button fx:id="loginButton"
-            text="Enter"
-            mnemonicParsing="false"
-            onAction="#handleLogin"
-            prefHeight="40.0" prefWidth="250.0"
-            style="-fx-background-color: #2f66d3; -fx-text-fill: white; -fx-font-weight: bold;"
-    />
+            <Button fx:id="loginButton"
+                    text="Login"
+                    mnemonicParsing="false"
+                    onAction="#handleLogin"
+                    prefHeight="44.0"
+                    maxWidth="Infinity"
+                    styleClass="primary-button"/>
 
-</VBox>
+            <HBox alignment="CENTER" spacing="8.0">
+                <Label text="No account yet?" styleClass="muted-text"/>
+                <Button text="Register" onAction="#handleOpenRegister" styleClass="link-button"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

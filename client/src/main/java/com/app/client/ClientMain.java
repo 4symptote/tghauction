@@ -29,7 +29,7 @@ public class ClientMain extends Application {
         assert fxmlLocation != null;
         Parent root = FXMLLoader.load(fxmlLocation);
         primaryStage.setTitle("tGauction");
-        primaryStage.setScene(new Scene(root, 400, 500));
+        primaryStage.setScene(new Scene(root, 440, 560));
         primaryStage.show();
     }
 

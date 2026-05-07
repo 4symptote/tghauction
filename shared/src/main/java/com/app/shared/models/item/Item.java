@@ -31,4 +31,11 @@ public abstract class Item extends Entity {
     public double getCurrentHighestBid() { return currentHighestBid; }
     public void setCurrentHighestBid(double currentHighestBid) { this.currentHighestBid = currentHighestBid; }
 
+    public String getSellerId() { return sellerId; }
+    public void setSellerId(String sellerId) { this.sellerId = sellerId; }
+
+    @Override
+    public String toString() {
+        return name + " - $" + currentHighestBid;
+    }
 }

@@ -8,18 +8,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import com.app.client.network.NetworkClient;
 import com.app.client.model.AuthModel;
-import com.app.shared.network.Request;
-import com.app.shared.network.Response;
+import com.app.shared.models.user.User;
 import java.io.IOException;
 
 public class LoginController {
 
     @FXML
     private TextField usernameField;
+
+    @FXML
+    private PasswordField passwordField;
 
     @FXML
     private Label errorLabel;
@@ -30,9 +32,16 @@ public class LoginController {
     @FXML
     public void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
+        String password = passwordField.getText();
 
         if (username == null || username.trim().isEmpty()) {
+            errorLabel.setVisible(true);
             errorLabel.setText("Please enter a username.");
+            return;
+        }
+        if (password == null || password.isBlank()) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Please enter your password.");
             return;
         }
 
@@ -44,7 +53,7 @@ public class LoginController {
             try {
                 // send LOGIN request
                 AuthModel authModel = new AuthModel();
-                authModel.login(username);
+                User loggedInUser = authModel.login(username, password);
 
                 javafx.application.Platform.runLater(() -> {
                     try {
@@ -53,10 +62,10 @@ public class LoginController {
                         Parent root = loader.load();
 
                         AuctionListController controller = loader.getController();
-                        controller.initData(username);
+                        controller.initData(loggedInUser.getUsername(), loggedInUser.getRole());
 
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(new Scene(root, 800, 600));
+                        stage.setScene(new Scene(root, 980, 650));
                         stage.setTitle("tGauction - Auctions");
                     } catch (IOException e) {
                         errorLabel.setText("System error: " + e.getMessage());
@@ -76,5 +85,18 @@ public class LoginController {
                 });
             }
         }).start();
+    }
+
+    @FXML
+    public void handleOpenRegister(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/RegisterView.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root, 500, 620));
+            stage.setTitle("tGauction - Register");
+        } catch (IOException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("System error: " + e.getMessage());
+        }
     }
 }

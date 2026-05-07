@@ -6,11 +6,14 @@ import com.app.shared.network.AuctionObserver;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientManager {
+import com.app.shared.network.Subject;
+
+public class ClientManager implements Subject<AuctionObserver> {
     private static ClientManager instance;
 
     // connected clients
     private final List<AuctionObserver> activeClients = new ArrayList<>();
+    private final List<ClientHandler> socketClients = new ArrayList<>();
 
     private ClientManager() {}
 
@@ -23,18 +26,39 @@ public class ClientManager {
     }
 
     // Register an observer/cleint
-    public synchronized void addClient(AuctionObserver client) {
+    @Override
+    public synchronized void addObserver(AuctionObserver client) {
         activeClients.add(client);
     }
 
+    public synchronized void addClient(AuctionObserver client) {
+        addObserver(client);
+    }
+
     // Unregister an observer
+    @Override
+    public synchronized void removeObserver(AuctionObserver client) {
+        activeClients.remove(client);
+    }
+
     public synchronized void removeClient(AuctionObserver client) {
         activeClients.remove(client);
+    }
+
+    public synchronized void addSocketClient(ClientHandler client) {
+        socketClients.add(client);
+    }
+
+    public synchronized void removeSocketClient(ClientHandler client) {
+        socketClients.remove(client);
     }
 
     // Broadcast to all clients
     public synchronized void broadcastAuctionUpdate(Auction updatedAuction) {
         for (AuctionObserver client : activeClients) {
+            client.onAuctionUpdated(updatedAuction);
+        }
+        for (ClientHandler client : socketClients) {
             client.onAuctionUpdated(updatedAuction);
         }
     }

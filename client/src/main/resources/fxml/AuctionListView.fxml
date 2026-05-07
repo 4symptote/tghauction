@@ -3,21 +3,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<!-- Notice fx:controller links this layout to your exact Java class -->
-<VBox spacing="15" alignment="CENTER" prefHeight="400.0" prefWidth="600.0"
+<BorderPane prefHeight="650.0" prefWidth="980.0"
+      stylesheets="@../css/app.css"
+      styleClass="app-root"
       xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.app.client.controller.AuctionListController">
 
-    <Label text="Active Auctions" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <top>
+        <HBox spacing="16" alignment="CENTER_LEFT" styleClass="top-bar">
+            <VBox spacing="2">
+                <Label text="tGauction" styleClass="app-title"/>
+                <Label text="Live auction control panel" styleClass="muted-text"/>
+            </VBox>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusLabel" text="Welcome!" styleClass="status-pill"/>
+            <Button text="Logout" onAction="#handleLogout" styleClass="secondary-button"/>
+        </HBox>
+    </top>
 
-    <!-- fx:id must exactly match the variable names in the Controller -->
-    <ListView fx:id="auctionListView" prefHeight="250.0" prefWidth="550.0" />
+    <center>
+        <VBox spacing="14" styleClass="content-panel">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <VBox spacing="2">
+                    <Label text="Active Auctions" styleClass="section-title"/>
+                    <Label text="Double-click an auction to inspect details and bid." styleClass="muted-text"/>
+                </VBox>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button fx:id="refreshButton" text="Refresh" onAction="#handleRefresh" styleClass="secondary-button"/>
+                <Button fx:id="detailsButton" text="Details" onAction="#handleViewDetails" styleClass="secondary-button"/>
+                <Button fx:id="createAuctionButton" text="New Auction" onAction="#handleCreateAuction" styleClass="primary-button"/>
+            </HBox>
 
-    <HBox spacing="20" alignment="CENTER">
-        <Button fx:id="refreshButton" text="Refresh List" onAction="#handleRefresh"/>
-        <Button fx:id="placeBidButton" text="Place Bid" style="-fx-base: #28a745;" onAction="#handlePlaceBid"/>
-    </HBox>
-
-    <Label fx:id="statusLabel" text="Welcome!" textFill="gray"/>
-
-</VBox>
+            <ListView fx:id="auctionListView" prefHeight="500.0" prefWidth="860.0" VBox.vgrow="ALWAYS" styleClass="auction-list"/>
+        </VBox>
+    </center>
+</BorderPane>

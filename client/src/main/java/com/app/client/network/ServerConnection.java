@@ -11,7 +11,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerConnection {
+import com.app.shared.network.Subject;
+
+public class ServerConnection implements Subject<AuctionObserver> {
     // Singleton pattern for the connection so all controllers use the same socket
     private static ServerConnection instance;
 
@@ -65,10 +67,12 @@ public class ServerConnection {
 
     // --- OBSERVER PATTERN LOGIC ---
 
+    @Override
     public void addObserver(AuctionObserver observer) {
         observers.add(observer);
     }
 
+    @Override
     public void removeObserver(AuctionObserver observer) {
         observers.remove(observer);
     }

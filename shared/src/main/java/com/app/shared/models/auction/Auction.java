@@ -3,11 +3,6 @@ package com.app.shared.models.auction;
 import com.app.shared.models.Entity;
 import com.app.shared.models.item.Item;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,5 +80,10 @@ public class Auction extends Entity {
         this.currentPrice = bid.getAmount();
         this.highestBidderId = bid.getBidderId();
         this.item.setCurrentHighestBid(bid.getAmount());
+    }
+
+    @Override
+    public String toString() {
+        return item.getName() + " | $" + currentPrice + " | " + getStatus();
     }
 }

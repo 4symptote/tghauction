@@ -10,7 +10,15 @@ public record Request(RequestType type, Object payload) implements Serializable 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public enum RequestType { LOGIN, PLACE_BID, CREATE_AUCTION, GET_AUCTIONS }
+    public enum RequestType {
+        LOGIN,
+        REGISTER,
+        PLACE_BID,
+        CREATE_AUCTION,
+        DELETE_AUCTION,
+        GET_AUCTIONS,
+        GET_BID_HISTORY
+    }
 
     // request.type() | request.payload()
 }

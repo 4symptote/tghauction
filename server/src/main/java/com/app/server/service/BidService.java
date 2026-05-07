@@ -31,7 +31,7 @@ public class BidService {
     }
 
     // concurrent bidding
-    public void placeBid(String auctionId, String bidderId, double bidAmount)
+    public Auction placeBid(String auctionId, String bidderId, double bidAmount)
             throws InvalidBidException, AuctionClosedException
     {
 
@@ -71,8 +71,11 @@ public class BidService {
 
             System.out.println("> new bid placed for $" + bidAmount + " by " + bidderId);
 
+            auctionManager.saveToDisk();
+
             // observer pattern
             ClientManager.getInstance().broadcastAuctionUpdate(auction);
+            return auction;
 
         } finally {
             lock.unlock();
