@@ -2,10 +2,17 @@ package com.app.client.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class LoginController {
 
@@ -49,6 +56,21 @@ public class LoginController {
         // } else {
         //     errorLabel.setText("Invalid credentials!");
         // }
+
+        try {
+            System.out.println("Login success! Switching scene...");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AuctionListView.fxml"));
+            Parent root = loader.load();
+
+            AuctionListController controller = loader.getController();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root, 980, 650));
+            stage.setTitle("tGhauction - Auctions");
+        } catch (IOException e) {
+            errorLabel.setText("System error: " + e.getMessage());
+            loginButton.setDisable(false);
+        }
     }
 
     @FXML
