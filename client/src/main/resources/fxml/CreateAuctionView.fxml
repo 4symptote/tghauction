@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="650.0" prefWidth="980.0"
+            stylesheets="@../css/app.css"
+            styleClass="app-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.app.client.controller.CreateAuctionController">
+
+    <top>
+        <HBox spacing="16" alignment="CENTER_LEFT" styleClass="top-bar">
+            <VBox spacing="2">
+                <Label text="Create Auction" styleClass="app-title"/>
+                <Label text="Add an item and open a timed bidding session." styleClass="muted-text"/>
+            </VBox>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusLabel" text="Ready" styleClass="status-pill"/>
+            <Button text="Back" onAction="#handleBack" styleClass="secondary-button"/>
+        </HBox>
+    </top>
+
+    <center>
+        <GridPane hgap="18" vgap="14" styleClass="form-panel">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="34"/>
+                <ColumnConstraints percentWidth="66"/>
+            </columnConstraints>
+
+            <Label text="Item Type" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="itemTypeComboBox" maxWidth="Infinity" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Item Name" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="itemNameField" promptText="Gaming Laptop" prefHeight="40" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Description" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextArea fx:id="descriptionArea" promptText="Condition, specs, provenance, or other important details" prefRowCount="6" wrapText="true" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Starting Price" styleClass="field-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="startingPriceField" promptText="100.00" prefHeight="40" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Duration" styleClass="field-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                <TextField fx:id="durationField" text="30" promptText="Duration" prefHeight="40" HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="durationUnitComboBox" prefHeight="40" prefWidth="130"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                <Button text="Cancel" onAction="#handleBack" styleClass="secondary-button"/>
+                <Button text="Create Auction" onAction="#handleCreateAuction" styleClass="primary-button"/>
+            </HBox>
+        </GridPane>
+    </center>
+</BorderPane>

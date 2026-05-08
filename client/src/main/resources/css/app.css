@@ -1,0 +1,365 @@
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: #F7F2E8;
+}
+
+.login-root,
+.app-root {
+    -fx-background-color: #10131A;
+}
+
+.auth-panel,
+.content-panel,
+.side-panel,
+.form-panel {
+    -fx-background-color: #171B24;
+    -fx-background-radius: 8;
+    -fx-border-color: #2B303B;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.28), 22, 0.22, 0, 8);
+}
+
+.auth-panel {
+    -fx-padding: 34;
+}
+
+.content-panel {
+    -fx-padding: 18;
+    -fx-border-width: 1;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+.admin-panel {
+    -fx-background-color: rgba(244, 182, 63, 0.08);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(244, 182, 63, 0.32);
+    -fx-border-radius: 8;
+    -fx-padding: 14;
+}
+
+.side-panel {
+    -fx-padding: 18 18 18 0;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: none;
+}
+
+.form-panel {
+    -fx-padding: 28;
+    -fx-max-width: 680;
+    -fx-border-width: 1;
+}
+
+.detail-shell {
+    -fx-padding: 0 20 20 20;
+    -fx-background-color: #10131A;
+}
+
+.top-bar {
+    -fx-padding: 18 22 14 22;
+    -fx-background-color: #0B0E14;
+    -fx-border-color: transparent transparent #242A36 transparent;
+}
+
+.brand-title {
+    -fx-font-size: 30px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #F4B63F;
+}
+
+.app-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #F7F2E8;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #F7F2E8;
+}
+
+.price-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #F4B63F;
+}
+
+.muted-text,
+.field-label {
+    -fx-text-fill: #A8B0BF;
+}
+
+.field-label {
+    -fx-font-weight: 600;
+}
+
+.label {
+    -fx-text-fill: #F7F2E8;
+}
+
+.error-text {
+    -fx-font-weight: 600;
+    -fx-text-fill: #FCA5A5;
+}
+
+.status-pill {
+    -fx-background-color: rgba(244, 182, 63, 0.16);
+    -fx-text-fill: #F4B63F;
+    -fx-padding: 7 12;
+    -fx-background-radius: 999;
+    -fx-font-weight: 600;
+}
+
+.text-field,
+.text-area,
+.combo-box-base {
+    -fx-background-color: #10131A;
+    -fx-control-inner-background: #10131A;
+    -fx-text-fill: #F7F2E8;
+    -fx-border-color: #343B49;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-prompt-text-fill: #727B8C;
+}
+
+.text-area .content {
+    -fx-background-color: #10131A;
+}
+
+.text-field:focused,
+.text-area:focused,
+.combo-box-base:focused {
+    -fx-border-color: #F4B63F;
+    -fx-effect: dropshadow(gaussian, rgba(244, 182, 63, 0.18), 8, 0.2, 0, 0);
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #F7F2E8;
+    -fx-background-color: #10131A;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #171B24;
+    -fx-border-color: #343B49;
+}
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-padding: 2;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 12;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 12;
+}
+
+.scroll-bar .track {
+    -fx-background-color: rgba(16, 19, 26, 0.74);
+    -fx-background-radius: 999;
+    -fx-border-color: transparent;
+    -fx-border-radius: 999;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #3A4250;
+    -fx-background-insets: 2;
+    -fx-background-radius: 999;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #596274;
+}
+
+.scroll-bar .thumb:pressed {
+    -fx-background-color: #F4B63F;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-shape: "";
+}
+
+.corner {
+    -fx-background-color: transparent;
+}
+
+.button {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-cursor: hand;
+    -fx-font-weight: 700;
+    -fx-padding: 9 14;
+}
+
+.primary-button {
+    -fx-background-color: #F4B63F;
+    -fx-text-fill: #111318;
+}
+
+.primary-button:hover {
+    -fx-background-color: #FFD166;
+}
+
+.success-button {
+    -fx-background-color: #F4B63F;
+    -fx-text-fill: #111318;
+}
+
+.success-button:hover {
+    -fx-background-color: #FFD166;
+}
+
+.secondary-button {
+    -fx-background-color: #171B24;
+    -fx-border-color: #3A4250;
+    -fx-text-fill: #F7F2E8;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #202632;
+}
+
+.danger-button {
+    -fx-background-color: #7F1D1D;
+    -fx-text-fill: #FEE2E2;
+}
+
+.danger-button:hover {
+    -fx-background-color: #991B1B;
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #F4B63F;
+    -fx-padding: 4 2;
+}
+
+.link-button:hover {
+    -fx-text-fill: #FFD166;
+    -fx-underline: true;
+}
+
+.auction-list {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.auction-list .virtual-flow,
+.auction-list .viewport {
+    -fx-background-color: transparent;
+}
+
+.auction-list .virtual-flow .clipped-container,
+.auction-list .virtual-flow .sheet {
+    -fx-background-color: transparent;
+}
+
+.auction-list .list-cell {
+    -fx-padding: 8 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: #F7F2E8;
+}
+
+.auction-list .list-cell:filled:hover {
+    -fx-background-color: transparent;
+}
+
+.auction-list .list-cell:filled:selected {
+    -fx-background-color: transparent;
+}
+
+.auction-card {
+    -fx-background-color: #1C222D;
+    -fx-background-radius: 8;
+    -fx-border-color: #303847;
+    -fx-border-radius: 8;
+    -fx-padding: 14;
+}
+
+.auction-card:hover {
+    -fx-border-color: #F4B63F;
+}
+
+.auction-name {
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #F7F2E8;
+}
+
+.auction-meta {
+    -fx-text-fill: #A8B0BF;
+}
+
+.auction-price {
+    -fx-font-size: 18px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #F4B63F;
+}
+
+.auction-time {
+    -fx-text-fill: #A8B0BF;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+}
+
+.auction-time-detail {
+    -fx-text-fill: #F4B63F;
+    -fx-font-size: 15px;
+    -fx-font-weight: 800;
+}
+
+.status-badge {
+    -fx-background-color: rgba(244, 182, 63, 0.14);
+    -fx-text-fill: #F4B63F;
+    -fx-background-radius: 999;
+    -fx-padding: 5 9;
+    -fx-font-size: 11px;
+    -fx-font-weight: 800;
+}
+
+.app-alert-overlay {
+    -fx-background-color: rgba(11, 14, 20, 0.62);
+    -fx-padding: 24;
+}
+
+.app-alert-card {
+    -fx-background-color: #171B24;
+    -fx-background-radius: 8;
+    -fx-border-color: #F4B63F;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 22;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.42), 28, 0.22, 0, 10);
+}
+
+.app-alert-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #F4B63F;
+}
+
+.app-alert-message {
+    -fx-text-fill: #F7F2E8;
+    -fx-line-spacing: 2;
+}

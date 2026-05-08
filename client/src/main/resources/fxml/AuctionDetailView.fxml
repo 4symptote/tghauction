@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="650.0" prefWidth="980.0"
+            stylesheets="@../css/app.css"
+            styleClass="app-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.app.client.controller.AuctionDetailController">
+
+    <top>
+        <HBox spacing="16" alignment="CENTER_LEFT" styleClass="top-bar">
+            <VBox spacing="2">
+                <Label fx:id="titleLabel" text="Auction Detail" styleClass="app-title"/>
+                <Label fx:id="subtitleLabel" text="Inspect item details, current price, and bid history." styleClass="muted-text"/>
+            </VBox>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusLabel" text="Ready" styleClass="status-pill"/>
+            <Button text="Back" onAction="#handleBack" styleClass="secondary-button"/>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="16" styleClass="detail-shell">
+            <VBox spacing="14" HBox.hgrow="ALWAYS" styleClass="content-panel">
+                <Label text="Item" styleClass="section-title"/>
+                <GridPane hgap="16" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="28"/>
+                        <ColumnConstraints percentWidth="72"/>
+                    </columnConstraints>
+                    <Label text="Name" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label fx:id="itemNameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Description" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label fx:id="descriptionLabel" wrapText="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Status" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <Label fx:id="auctionStatusLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Current Price" styleClass="field-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <Label fx:id="currentPriceLabel" styleClass="price-text" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    <Label fx:id="bidderTitleLabel" text="Highest Bidder" styleClass="field-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <Label fx:id="highestBidderLabel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                    <Label text="Ends At" styleClass="field-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    <Label fx:id="endTimeLabel" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                    <Label text="Time Remaining" styleClass="field-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <Label fx:id="timeRemainingLabel" styleClass="auction-time-detail" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="bidAmountField" promptText="Bid amount" prefHeight="40" HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="placeBidButton" text="Place Bid" onAction="#handlePlaceBid" styleClass="success-button"/>
+                </HBox>
+
+                <VBox fx:id="adminControlsPanel" spacing="10" styleClass="admin-panel">
+                    <Label text="Admin Controls" styleClass="section-title"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="adminPriceField" promptText="Set current price" prefHeight="40" HBox.hgrow="ALWAYS"/>
+                        <Button text="Set Price" onAction="#handleSetAuctionPrice" styleClass="primary-button"/>
+                        <Button text="Conclude" onAction="#handleConcludeAuction" styleClass="secondary-button"/>
+                        <Button text="Delete Auction" onAction="#handleDeleteAuction" styleClass="danger-button"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <VBox spacing="12" prefWidth="320" styleClass="content-panel">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Bid History" styleClass="section-title"/>
+                    <Pane HBox.hgrow="ALWAYS"/>
+                    <Button text="Refresh" onAction="#handleRefreshHistory" styleClass="secondary-button"/>
+                </HBox>
+                <ListView fx:id="bidHistoryListView" VBox.vgrow="ALWAYS" styleClass="auction-list"/>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>
