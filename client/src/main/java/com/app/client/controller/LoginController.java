@@ -66,7 +66,7 @@ public class LoginController {
 
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(new Scene(root, 980, 650));
-                        stage.setTitle("tGauction - Auctions");
+                        stage.setTitle("tGhauction - Auctions");
                     } catch (IOException e) {
                         errorLabel.setText("System error: " + e.getMessage());
                         loginButton.setDisable(false);

@@ -89,7 +89,7 @@ public class RegisterController {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, 980, 650));
-            stage.setTitle("tGauction - Auctions");
+            stage.setTitle("tGhauction - Auctions");
         } catch (IOException e) {
             showError("System error: " + e.getMessage());
             registerButton.setDisable(false);
