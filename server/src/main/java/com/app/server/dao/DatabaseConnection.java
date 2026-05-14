@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class DatabaseConnection {
-    private static final String DEFAULT_CONNECTION_STRING = "mongodb://localhost:27017";
+    private static final String DEFAULT_CONNECTION_STRING = "mongodb+srv://4symptote:tghauctionrm@tghauction.bvst4bh.mongodb.net/?appName=tGhauction";
     private static final String DEFAULT_DATABASE_NAME = "auction_db";
     private static final Map<String, String> ENV_FILE_VALUES = loadEnvFile();
 
@@ -57,13 +57,11 @@ public class DatabaseConnection {
     }
 
     private static String getConnectionString() {
-        String value = getConfigValue("MONGODB_URI");
-        return value == null || value.isBlank() ? DEFAULT_CONNECTION_STRING : value;
+        return DEFAULT_CONNECTION_STRING;
     }
 
     private static String getDatabaseName() {
-        String value = getConfigValue("MONGODB_DATABASE");
-        return value == null || value.isBlank() ? DEFAULT_DATABASE_NAME : value;
+        return DEFAULT_DATABASE_NAME;
     }
 
     private static String getConfigValue(String key) {

@@ -13,7 +13,7 @@
             stylesheets="@../css/app.css"
             styleClass="login-root"
             xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
+            xmlns:fx="http://javaf  x.com/fxml/1"
             fx:controller="com.app.client.controller.LoginController">
     <padding>
         <Insets bottom="34.0" left="34.0" right="34.0" top="34.0" />

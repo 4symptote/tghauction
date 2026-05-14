@@ -1,0 +1,96 @@
+/* application.css */
+
+/* Defing Global Variables (requires JavaFX 8+) */
+* {
+    -fx-bg-dark: #121212;
+    -fx-bg-orange: #d1753c;
+    -fx-text-light: #f4eee0;
+    -fx-text-dark: #181615;
+    -fx-accent-red: #c93628;
+
+    /* A subtle grid background simulator for JavaFX */
+    -fx-grid-line-color: rgba(24, 22, 21, 0.15);
+}
+
+/* Root Style */
+.root {
+    -fx-font-family: 'Jost', 'Arial', sans-serif; /* Jost is preferred, fallback provided */
+    -fx-font-size: 14pt;
+    -fx-text-fill: var(-fx-text-dark);
+}
+
+/* --- Typographical Accents --- */
+.mono-text {
+    -fx-font-family: 'Space Mono', 'Courier New', monospace;
+    -fx-font-size: 11pt;
+}
+
+.heading-text {
+    -fx-font-weight: 900;
+    -fx-text-transform: uppercase; /* JavaFX might ignore this, use uppercase in FXML instead */
+}
+
+/* --- Base Button Style --- */
+.button {
+    -fx-background-color: var(-fx-text-dark);
+    -fx-text-fill: var(-fx-text-light);
+    -fx-background-radius: 0; /* Arknights uses square edges */
+    -fx-border-color: var(-fx-text-dark);
+    -fx-border-width: 2px;
+    -fx-padding: 10px 20px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: var(-fx-text-light);
+    -fx-text-fill: var(-fx-text-dark);
+}
+
+/* Primary Accent Button */
+.button-primary {
+    -fx-background-color: var(-fx-accent-red);
+    -fx-border-color: var(-fx-accent-red);
+}
+
+.button-primary:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: var(-fx-accent-red);
+}
+
+/* Form Styles */
+.form-input-field {
+    -fx-background-color: transparent;
+    -fx-border-color: var(-fx-text-dark);
+    -fx-border-width: 2px;
+    -fx-font-family: 'Space Mono', monospace;
+    -fx-prompt-text-fill: rgba(24, 22, 21, 0.5);
+    -fx-background-radius: 0;
+}
+
+/* --- Specialized Containers --- */
+
+.login-terminal-root {
+    -fx-background-color: var(-fx-bg-orange);
+    /* grid background can only be done reliably in code or via an image */
+}
+
+.standard-header {
+    -fx-background-color: var(-fx-text-dark);
+    -fx-border-color: transparent transparent var(-fx-accent-red) transparent;
+    -fx-border-width: 0 0 4px 0;
+}
+
+/* Special styling for the Auction List Cells */
+.auction-list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+/* The card view within a cell */
+.auction-card {
+    -fx-background-color: var(-fx-text-light);
+    -fx-border-color: var(-fx-text-dark);
+    -fx-border-width: 3px;
+    -fx-padding: 15;
+}
